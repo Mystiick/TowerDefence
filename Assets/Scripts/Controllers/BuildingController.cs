@@ -22,23 +22,31 @@ public class BuildingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_currentTower != null)
+        {
+            UpdatePreview();
+        }
+    }
+
+    private void UpdatePreview()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.Buildable))
         {
-            Vector3 newPos = hit.point;
-            newPos.x -= newPos.x % .5f;
-            newPos.z -= newPos.z % .5f;
-
-            buildingPreview.transform.position = newPos;
+            // Round the position to the nearest 0.5
+            buildingPreview.transform.position = new Vector3(
+                hit.point.x - (hit.point.x % .5f),
+                hit.point.y - (hit.point.y % .5f),
+                hit.point.z - (hit.point.z % .5f)
+            );
 
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 colliderSize = new Vector3(_currentTower.Width * 5 - .1f, 1, _currentTower.Height * 5 - .1f);
-                colliderSize = new Vector3(
-                    colliderSize.x * _tempTower.transform.localScale.x,
-                    colliderSize.y * _tempTower.transform.localScale.y,
-                    colliderSize.z * _tempTower.transform.localScale.z
+                Vector3 colliderSize = new Vector3(
+                    (_currentTower.Width * 5 - .1f) * _tempTower.transform.localScale.x,
+                    1 * _tempTower.transform.localScale.y,
+                    (_currentTower.Height * 5 - .1f) * _tempTower.transform.localScale.z
                 );
 
                 // Look if we are colliding with anything
@@ -66,10 +74,12 @@ public class BuildingController : MonoBehaviour
         _tempTower = AddChild(buildingPreview, _currentTower.PrefabToRender);
         _tempTower.transform.localScale = _currentTower.Scale;
 
-        AddChild(_tempTower, this.tileCover);
+        var tc = AddChild(_tempTower, this.tileCover);
+        // Bump up the Y axis 0.01, to prevent Y fighting
+        tc.transform.localPosition = new Vector3(0, .01f, 0);
     }
 
-    GameObject AddChild(GameObject parent, GameObject child)
+    private GameObject AddChild(GameObject parent, GameObject child)
     {
         GameObject go = Instantiate(child);
         go.transform.parent = parent.transform;
@@ -79,7 +89,7 @@ public class BuildingController : MonoBehaviour
         return go;
     }
 
-    void ResetBuildingController()
+    private void ResetBuildingController()
     {
         foreach (Transform c in buildingPreview.transform)
         {
