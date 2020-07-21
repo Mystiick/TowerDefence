@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class BuildingController : MonoBehaviour
 {
-    
     public GameObject buildingPreview;
     public GameObject tileCover;
 
