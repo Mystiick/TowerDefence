@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class BuildingController : MonoBehaviour
 {
-    
     public GameObject buildingPreview;
     public GameObject tileCover;
 
@@ -43,25 +42,7 @@ public class BuildingController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 colliderSize = new Vector3(
-                    (_currentTower.Width * 5 - .1f) * _tempTower.transform.localScale.x,
-                    1 * _tempTower.transform.localScale.y,
-                    (_currentTower.Height * 5 - .1f) * _tempTower.transform.localScale.z
-                );
-
-                // Look if we are colliding with anything
-                var overlaps = Physics.OverlapBox(buildingPreview.transform.position, colliderSize / 2, Quaternion.identity, LayerMask.Default);
-
-                if (overlaps.Length == 0)
-                {
-                    // Mouse has been pressed, copy building preview to a real tower
-                    var go = Instantiate(_tempTower);
-                    go.transform.position = buildingPreview.transform.position;
-
-                    var bc = go.AddComponent<BoxCollider>();
-                    bc.size = colliderSize;
-                    bc.center = Vector3.zero;
-                }
+                SpawnTower();
             }
         }
     }
@@ -79,6 +60,12 @@ public class BuildingController : MonoBehaviour
         tc.transform.localPosition = new Vector3(0, .01f, 0);
     }
 
+    public void ClearPreview()
+    {
+        ResetBuildingController();
+        _currentTower = null;
+    }
+
     private GameObject AddChild(GameObject parent, GameObject child)
     {
         GameObject go = Instantiate(child);
@@ -94,6 +81,36 @@ public class BuildingController : MonoBehaviour
         foreach (Transform c in buildingPreview.transform)
         {
             Destroy(c.gameObject);
+        }
+    }
+
+    private void SpawnTower()
+    {
+        
+        Vector3 colliderSize = new Vector3(_currentTower.Width * 5 - .1f, 1, _currentTower.Height * 5 - .1f);
+        Vector3 scaledColliderSize = new Vector3(
+            colliderSize.x * _tempTower.transform.localScale.x,
+            colliderSize.y * _tempTower.transform.localScale.y,
+            colliderSize.z * _tempTower.transform.localScale.z
+        );
+
+        // Look if we are colliding with anything
+        var overlaps = Physics.OverlapBox(buildingPreview.transform.position, scaledColliderSize / 2, Quaternion.identity, LayerMask.Default);
+
+        if (overlaps.Length == 0 && PlayerController.Instance.Gold >= _currentTower.GoldCost)
+        {
+            // Mouse has been pressed, copy building preview to a real tower
+            var go = Instantiate(_tempTower);
+            go.transform.position = buildingPreview.transform.position;
+
+            var bc = go.AddComponent<BoxCollider>();
+            bc.size = colliderSize;
+            bc.center = Vector3.zero;
+
+            var tc = go.AddComponent<TowerController>();
+            tc.Tower = _currentTower;
+
+            PlayerController.Instance.Gold -= _currentTower.GoldCost;
         }
     }
 }

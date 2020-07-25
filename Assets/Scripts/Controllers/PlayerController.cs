@@ -4,34 +4,58 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public BuildingController _buildingController;
-    public ScriptableObject[] debugger;
-    
+    [Header("Player Stats")]
+    public int Gold;
+
+
+
+    #region | Instance |
+    private static PlayerController _instance;
+    public static PlayerController Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
+            }
+
+            return _instance;
+        }
+    }
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        int selected = -1;
+        UserInterfaceController.Instance.GoldLabel.text = Gold.ToString("N0");
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            selected = 0;
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            selected = 1;
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            selected = 2;
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            selected = 3;
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            selected = 4;
+        CheckUserClick();
+    }
 
-        if (selected != -1)
+    void CheckUserClick()
+    {
+        BuildState currentState = UserInterfaceController.Instance.BuildPanel.CurrentBuildState;
+
+
+        if ((currentState == BuildState.None || currentState == BuildState.Sell) && Input.GetMouseButtonDown(0))
         {
-            _buildingController.SetPreview((TowerScriptableObject)debugger[selected]);
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+            {
+                var tc = hit.collider.gameObject.GetComponent<TowerController>();
+
+                if (tc != null)
+                {
+                    UserInterfaceController.Instance.BuildPanel.Target = tc;
+                    UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Sell);
+                }
+            }
         }
     }
 
