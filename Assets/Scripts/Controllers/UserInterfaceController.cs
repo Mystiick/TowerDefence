@@ -7,17 +7,21 @@ public class UserInterfaceController : MonoBehaviour
 {
 
     public BuildState _currentBuildState;
+    public TowerScriptableObject[] BuildableTowers { get; }
 
     #region | Instance |
     private static UserInterfaceController _instance;
-    public static UserInterfaceController Instance()
+    public static UserInterfaceController Instance
     {
-        if (_instance == null)
+        get
         {
-            _instance = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<UserInterfaceController>();
-        }
+            if (_instance == null)
+            {
+                _instance = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<UserInterfaceController>();
+            }
 
-        return _instance;
+            return _instance;
+        }
     }
     #endregion
 

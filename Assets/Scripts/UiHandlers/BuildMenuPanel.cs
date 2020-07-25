@@ -10,6 +10,7 @@ public class BuildMenuPanel : MonoBehaviour
     public Button CancelButton;
     public Button ArcherTowerButton;
     public Button SellButton;
+    public float Padding;
 
     [Header("Controllers")]
     [Tooltip("Game object that contains the BuildingController Component")]
@@ -17,12 +18,16 @@ public class BuildMenuPanel : MonoBehaviour
 
     private BuildState _currentBuildState;
     private BuildingController _bc;
+    private List<Button> _displayButtons;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetBuildState(BuildState.None);
         _bc = BuildingController.GetComponent<BuildingController>();
+        _displayButtons = new List<Button>();
+
+        RemoveAllButtons();
+        SetBuildState(BuildState.None);
     }
 
     // Update is called once per frame
@@ -33,20 +38,35 @@ public class BuildMenuPanel : MonoBehaviour
 
     public void SetBuildState(BuildState newState)
     {
+        // Reset current state
         _currentBuildState = newState;
+        RemoveAllButtons();
+
+        // Determine new buttons to show
+        SetDisplayButtons();
+
+        // Actually show them
+        for (int i = 0; i < _displayButtons.Count; i++)
+        {
+            _displayButtons[i].gameObject.SetActive(true);
+            _displayButtons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -Padding * i);
+        }
+    }
+
+    private void SetDisplayButtons()
+    {
+        _displayButtons.Clear();
 
         switch (_currentBuildState)
         {
             case BuildState.None:
-                BuildButton.gameObject.SetActive(true);
-                CancelButton.gameObject.SetActive(false);
-                ArcherTowerButton.gameObject.SetActive(false);
+                _displayButtons.Add(BuildButton);
+                _bc.ClearPreview();
                 break;
 
             case BuildState.Build:
-                BuildButton.gameObject.SetActive(false);
-                CancelButton.gameObject.SetActive(true);
-                ArcherTowerButton.gameObject.SetActive(true);
+                _displayButtons.Add(ArcherTowerButton);
+                _displayButtons.Add(CancelButton);
                 break;
 
             default:
@@ -56,8 +76,14 @@ public class BuildMenuPanel : MonoBehaviour
 
     public void SetBuildTower(TowerScriptableObject tower)
     {
-        Debug.Log("Setting Tower");
         _bc.SetPreview(tower);
     }
 
+    private void RemoveAllButtons()
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
 }
