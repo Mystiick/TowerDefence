@@ -16,7 +16,9 @@ public class BuildMenuPanel : MonoBehaviour
     [Tooltip("Game object that contains the BuildingController Component")]
     public GameObject BuildingController;
 
-    private BuildState _currentBuildState;
+    public BuildState CurrentBuildState { get; private set; }
+    public TowerController Target { get; set; }
+
     private BuildingController _bc;
     private List<Button> _displayButtons;
 
@@ -39,7 +41,7 @@ public class BuildMenuPanel : MonoBehaviour
     public void SetBuildState(BuildState newState)
     {
         // Reset current state
-        _currentBuildState = newState;
+        CurrentBuildState = newState;
         RemoveAllButtons();
 
         // Determine new buttons to show
@@ -53,11 +55,17 @@ public class BuildMenuPanel : MonoBehaviour
         }
     }
 
+    public void SetBuildTower(TowerScriptableObject tower)
+    {
+        _bc.SetPreview(tower);
+    }
+
+
     private void SetDisplayButtons()
     {
         _displayButtons.Clear();
 
-        switch (_currentBuildState)
+        switch (CurrentBuildState)
         {
             case BuildState.None:
                 _displayButtons.Add(BuildButton);
@@ -69,14 +77,14 @@ public class BuildMenuPanel : MonoBehaviour
                 _displayButtons.Add(CancelButton);
                 break;
 
+            case BuildState.Sell:
+                _displayButtons.Add(SellButton);
+                _displayButtons.Add(CancelButton);
+                break;
+
             default:
                 break;
         }
-    }
-
-    public void SetBuildTower(TowerScriptableObject tower)
-    {
-        _bc.SetPreview(tower);
     }
 
     private void RemoveAllButtons()
@@ -86,4 +94,5 @@ public class BuildMenuPanel : MonoBehaviour
             this.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
+
 }

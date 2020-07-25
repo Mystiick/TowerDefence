@@ -2,13 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UserInterfaceController : MonoBehaviour
 {
+    [Header("UI Components")]
+    public Text GoldLabel;
+    public BuildMenuPanel BuildPanel;
 
-    public BuildState _currentBuildState;
-    public TowerScriptableObject[] BuildableTowers { get; }
-
+    //private BuildMenuPanel
     #region | Instance |
     private static UserInterfaceController _instance;
     public static UserInterfaceController Instance
@@ -25,11 +27,6 @@ public class UserInterfaceController : MonoBehaviour
     }
     #endregion
 
-    public void SetBuildState(BuildState newState)
-    {
-        _currentBuildState = newState;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +36,11 @@ public class UserInterfaceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void SetBuildState(BuildState newState)
+    {
+        BuildPanel.SetBuildState(newState);
     }
 }

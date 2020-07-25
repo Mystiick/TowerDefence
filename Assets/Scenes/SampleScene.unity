@@ -657,7 +657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ab88f9252b71f4fabdb96df89443c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentBuildState: 0
+  GoldLabel: {fileID: 561471182}
+  BuildPanel: {fileID: 789943946}
 --- !u!1001 &203991818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -812,8 +813,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 210741422}
-        m_MethodName: SetBuildState
-        m_Mode: 5
+        m_MethodName: SellTower
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3885,7 +3886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_BlockingObjects: 3
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295

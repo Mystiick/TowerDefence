@@ -107,6 +107,9 @@ public class BuildingController : MonoBehaviour
             bc.size = colliderSize;
             bc.center = Vector3.zero;
 
+            var tc = go.AddComponent<TowerController>();
+            tc.Tower = _currentTower;
+
             PlayerController.Instance.Gold -= _currentTower.GoldCost;
         }
     }

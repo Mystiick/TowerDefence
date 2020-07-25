@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Stats")]
     public int Gold;
 
-    [Header("UI Components")]
-    public Text GoldLabel;
+
 
     #region | Instance |
     private static PlayerController _instance;
@@ -36,7 +34,29 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GoldLabel.text = Gold.ToString("N0");
+        UserInterfaceController.Instance.GoldLabel.text = Gold.ToString("N0");
+
+        CheckUserClick();
+    }
+
+    void CheckUserClick()
+    {
+        BuildState currentState = UserInterfaceController.Instance.BuildPanel.CurrentBuildState;
+
+
+        if ((currentState == BuildState.None || currentState == BuildState.Sell) && Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+            {
+                var tc = hit.collider.gameObject.GetComponent<TowerController>();
+
+                if (tc != null)
+                {
+                    UserInterfaceController.Instance.BuildPanel.Target = tc;
+                    UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Sell);
+                }
+            }
+        }
     }
 
 }
