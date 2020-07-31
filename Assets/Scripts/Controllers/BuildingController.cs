@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Assertions;
 
 public class BuildingController : MonoBehaviour
 {
@@ -39,6 +41,7 @@ public class BuildingController : MonoBehaviour
                 hit.point.y - (hit.point.y % .5f),
                 hit.point.z - (hit.point.z % .5f)
             );
+            Debug.Assert(buildingPreview.transform.position == (hit.point - hit.point.Mod(.5f)));
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -93,6 +96,7 @@ public class BuildingController : MonoBehaviour
             colliderSize.y * _tempTower.transform.localScale.y,
             colliderSize.z * _tempTower.transform.localScale.z
         );
+        Debug.Assert(colliderSize.Times(_tempTower.transform.localScale) == scaledColliderSize);
 
         // Look if we are colliding with anything
         var overlaps = Physics.OverlapBox(buildingPreview.transform.position, scaledColliderSize / 2, Quaternion.identity, LayerMask.Default);
@@ -109,6 +113,10 @@ public class BuildingController : MonoBehaviour
 
             var tc = go.AddComponent<TowerController>();
             tc.Tower = _currentTower;
+
+            var nmo = go.AddComponent<NavMeshObstacle>();
+            nmo.carving = true;
+            nmo.size = colliderSize;
 
             PlayerController.Instance.Gold -= _currentTower.GoldCost;
         }

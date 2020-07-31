@@ -39,8 +39,4 @@ public class UserInterfaceController : MonoBehaviour
 
     }
 
-    public void SetBuildState(BuildState newState)
-    {
-        BuildPanel.SetBuildState(newState);
-    }
 }

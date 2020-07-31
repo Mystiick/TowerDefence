@@ -25,6 +25,7 @@ public class TowerController : MonoBehaviour
         if (this.gameObject.activeSelf)
         {
             this.gameObject.SetActive(false);
+
             // Refund 75% rounded down
             PlayerController.Instance.Gold += (int)Math.Floor(Tower.GoldCost * .75);
             Destroy(this.gameObject);
