@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     [Header("Player Stats")]
     public int Gold;
 
-
-
     #region | Instance |
     private static PlayerController _instance;
     public static PlayerController Instance

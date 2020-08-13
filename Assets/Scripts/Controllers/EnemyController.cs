@@ -23,14 +23,15 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetMouseButtonDown(1))
-        // {
-        //     Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // 
-        //     if (Physics.Raycast(r, out RaycastHit hit))
-        //     {
-        //         _agent.SetDestination(hit.point);
-        //     }
-        // }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(Tag.Finish))
+        {
+            WaveController.Instance.RemoveFromLevel(this.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 }

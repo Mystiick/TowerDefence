@@ -13,6 +13,7 @@ public class LayerMask
 public class Tag
 {
     public const string Generated = "Generated";
+    public const string Finish = "Finish";
 }
 
 public static class Extensions

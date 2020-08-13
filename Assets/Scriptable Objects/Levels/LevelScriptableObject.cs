@@ -7,4 +7,5 @@ public class LevelScriptableObject : ScriptableObject
 {
     public EnemyScriptableObject EnemyToSpawn;
     public int NumberOfSpawns;
+    public float SpawnSpeed;
 }
