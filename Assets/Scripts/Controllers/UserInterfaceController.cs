@@ -8,9 +8,10 @@ public class UserInterfaceController : MonoBehaviour
 {
     [Header("UI Components")]
     public Text GoldLabel;
+    public Text LivesLabel;
+    public Text LevelLabel;
     public BuildMenuPanel BuildPanel;
 
-    //private BuildMenuPanel
     #region | Instance |
     private static UserInterfaceController _instance;
     public static UserInterfaceController Instance
@@ -37,6 +38,22 @@ public class UserInterfaceController : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void UpdatePlayerStats(StatType stat, int value)
+    {
+        switch (stat)
+        {
+            case StatType.Gold:
+                GoldLabel.text = value.ToString("N0");
+                break;
+            case StatType.Level:
+                Debug.Log($"Level: {value}");
+                break;
+            case StatType.Lives:
+                LivesLabel.text = value.ToString("N0");
+                break;
+        }
     }
 
 }

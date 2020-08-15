@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _agent.updateRotation = false;
 
         if (target != null)
         {
@@ -23,7 +24,11 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (_agent.velocity.sqrMagnitude > Mathf.Epsilon)
+        {
+            // Rotate 180 degrees to face the right way
+            transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized) * Quaternion.AngleAxis(180, transform.up);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,6 +36,7 @@ public class EnemyController : MonoBehaviour
         if (other.CompareTag(Tag.Finish))
         {
             WaveController.Instance.RemoveFromLevel(this.gameObject);
+            PlayerController.Instance.Lives -= 1;
             Destroy(this.gameObject);
         }
     }
