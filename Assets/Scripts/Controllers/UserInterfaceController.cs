@@ -48,7 +48,7 @@ public class UserInterfaceController : MonoBehaviour
                 GoldLabel.text = value.ToString("N0");
                 break;
             case StatType.Level:
-                Debug.Log($"Level: {value}");
+                LevelLabel.text = value.ToString("N0");
                 break;
             case StatType.Lives:
                 LivesLabel.text = value.ToString("N0");

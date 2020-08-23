@@ -59,6 +59,8 @@ public class WaveController : MonoBehaviour
             _spawnedThisLevel = 0;
             _isSpawning = true;
             _enemies.Clear();
+            
+            PlayerController.Instance.Level = CurrentLevel;
         }
         else if(_enemies.Count != 0) 
         {

@@ -29,6 +29,14 @@ public class EnemyController : MonoBehaviour
             // Rotate 180 degrees to face the right way
             transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized) * Quaternion.AngleAxis(180, transform.up);
         }
+
+        
+        if (!_agent.hasPath)
+        {
+            // TODO: Let this unit attack towers to make a path
+            Debug.LogWarning("No path found");
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)

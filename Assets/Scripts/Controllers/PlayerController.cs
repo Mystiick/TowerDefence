@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private int _gold;
     [SerializeField]
     private int _lives;
+    [SerializeField]
+    private int _level;
 
     public int Gold
     {
@@ -35,6 +37,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public int Level
+    {
+        get
+        {
+            return _level;
+        }
+        set
+        {
+            _level = value;
+            UserInterfaceController.Instance.UpdatePlayerStats(StatType.Level, value);
+        }
+    }
 
     #region | Instance |
     private static PlayerController _instance;
