@@ -8,17 +8,20 @@ public class EnemyController : MonoBehaviour
 {
     NavMeshAgent _agent;
     public GameObject target;
+    public EnemyScriptableObject Enemy;
+
+    public int Health;
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Assert(target != null);
+
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
+        _agent.SetDestination(target.transform.position);
 
-        if (target != null)
-        {
-            _agent.SetDestination(target.transform.position);
-        }
+        Health = Enemy.Health;
     }
 
     // Update is called once per frame
@@ -29,23 +32,37 @@ public class EnemyController : MonoBehaviour
             // Rotate 180 degrees to face the right way
             transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized) * Quaternion.AngleAxis(180, transform.up);
         }
-
         
         if (!_agent.hasPath)
         {
             // TODO: Let this unit attack towers to make a path
             Debug.LogWarning("No path found");
         }
-
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Tag.Finish))
+        if (other.CompareTag(Tags.Finish))
         {
-            WaveController.Instance.RemoveFromLevel(this.gameObject);
             PlayerController.Instance.Lives -= 1;
-            Destroy(this.gameObject);
+            Remove();
         }
+    }
+
+    public void Hit(int value)
+    {
+        Health -= value;
+
+        if (Health <= 0)
+        {
+            PlayerController.Instance.Gold += Enemy.GoldValue;
+            Remove();
+        }
+    }
+
+    private void Remove()
+    {
+        this.gameObject.SetActive(false);
+        WaveController.Instance.RemoveFromLevel(this.gameObject);
     }
 }

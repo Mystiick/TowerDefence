@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.AI;
@@ -91,15 +92,12 @@ public class BuildingController : MonoBehaviour
     {
         
         Vector3 colliderSize = new Vector3(_currentTower.Width * 5 - .1f, 1, _currentTower.Height * 5 - .1f);
-        Vector3 scaledColliderSize = new Vector3(
-            colliderSize.x * _tempTower.transform.localScale.x,
-            colliderSize.y * _tempTower.transform.localScale.y,
-            colliderSize.z * _tempTower.transform.localScale.z
-        );
-        Debug.Assert(colliderSize.Times(_tempTower.transform.localScale) == scaledColliderSize);
+        Vector3 scaledColliderSize = colliderSize.Times(_tempTower.transform.localScale);
 
         // Look if we are colliding with anything
-        var overlaps = Physics.OverlapBox(buildingPreview.transform.position, scaledColliderSize / 2, Quaternion.identity, LayerMask.Default);
+        Collider[] overlaps = Physics.OverlapBox(buildingPreview.transform.position, scaledColliderSize / 2, Quaternion.identity, LayerMask.Default);
+        // Ignore any triggers
+        overlaps = overlaps.Where(x => !x.isTrigger).ToArray();
 
         if (overlaps.Length == 0 && PlayerController.Instance.Gold >= _currentTower.GoldCost)
         {
@@ -117,6 +115,11 @@ public class BuildingController : MonoBehaviour
             var nmo = go.AddComponent<NavMeshObstacle>();
             nmo.carving = true;
             nmo.size = colliderSize;
+
+            var sc = go.AddComponent<SphereCollider>();
+            sc.center = Vector3.zero;
+            sc.radius = _currentTower.Range;
+            sc.isTrigger = true;
 
             PlayerController.Instance.Gold -= _currentTower.GoldCost;
         }

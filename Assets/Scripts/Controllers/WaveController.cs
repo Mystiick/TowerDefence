@@ -17,6 +17,7 @@ public class WaveController : MonoBehaviour
     private float _timeSinceLastSpawn;
     private bool _isSpawning;
     private List<GameObject> _enemies;
+    private List<GameObject> _cleanup;
 
     #region | Instance |
     private static WaveController _instance;
@@ -38,6 +39,7 @@ public class WaveController : MonoBehaviour
     void Start()
     {
         _enemies = new List<GameObject>();
+        _cleanup = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -75,10 +77,17 @@ public class WaveController : MonoBehaviour
     public void RemoveFromLevel(GameObject enemy)
     {
         _enemies.Remove(enemy);
+        _cleanup.Add(enemy);
 
         if (_enemies.Count == 0 && !_isSpawning)
         {
-            Debug.Log("Finished Level!");
+            Debug.Log("Finished Level, cleaning up");
+
+            foreach (GameObject go in _cleanup)
+            {
+                Destroy(go);
+            }
+            _cleanup.Clear();
         }
     }
 
@@ -91,7 +100,11 @@ public class WaveController : MonoBehaviour
             // Spawn enemy
             var go = Instantiate(wave.EnemyToSpawn.PrefabToRender);
             go.transform.position = Spawner.transform.position;
-            go.GetComponent<EnemyController>().target = this.Target;
+            go.layer = Layer.Enemy;
+
+            var ec = go.GetComponent<EnemyController>();
+            ec.target = this.Target;
+            ec.Enemy = wave.EnemyToSpawn;
 
             // Reset spawn time and count up
             _timeSinceLastSpawn = 0f;

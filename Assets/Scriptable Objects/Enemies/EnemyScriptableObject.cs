@@ -7,7 +7,8 @@ public class EnemyScriptableObject : ScriptableObject
 {
     public string EnemyName;    
     public float Speed = 1f;
-    public int GoldCost = 10;
+    public int GoldValue = 10;
+    public int Health = 100;
     public GameObject PrefabToRender;
     public Vector3 Scale;
 

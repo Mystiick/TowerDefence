@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyName: Soldier
   Speed: 1
-  GoldCost: 10
+  GoldValue: 10
+  Health: 3
   PrefabToRender: {fileID: 7702298973879094772, guid: 26b1527e6094d814e9f6cb27ff871317,
     type: 3}
   Scale: {x: 0.1, y: 0.1, z: 0.1}

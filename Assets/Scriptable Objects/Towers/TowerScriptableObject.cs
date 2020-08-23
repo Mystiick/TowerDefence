@@ -13,6 +13,7 @@ public class TowerScriptableObject : ScriptableObject
     public GameObject Projectile;
     public GameObject PrefabToRender;
     public int Damage;
+    public float AttackCooldown = 2f;
     public bool HasCollider = true;
     public Vector3 Scale;
     /// <summary>Time in seconds for how long this tower takes to be built/upgraded to</summary>

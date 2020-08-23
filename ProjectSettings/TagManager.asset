@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Buildable
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - Buildable
   - AI Pathing
-  - 
+  - Enemy
   - 
   - 
   - 
