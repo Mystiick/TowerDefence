@@ -9,6 +9,7 @@ public class BuildMenuPanel : MonoBehaviour
     public Button BuildButton;
     public Button CancelButton;
     public Button ArcherTowerButton;
+    public Button WallButton;
     public Button SellButton;
     public float Padding;
 
@@ -74,6 +75,7 @@ public class BuildMenuPanel : MonoBehaviour
 
             case BuildState.Build:
                 _displayButtons.Add(ArcherTowerButton);
+                _displayButtons.Add(WallButton);
                 _displayButtons.Add(CancelButton);
                 break;
 

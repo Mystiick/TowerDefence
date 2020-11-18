@@ -14,13 +14,16 @@ public class TowerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Debug.Assert(Tower != null, "Tower cannot be null upon startup", this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateAttack();
+        if (Tower.CanAttack)
+        {
+            UpdateAttack();
+        }
     }
 
     public void Sell()

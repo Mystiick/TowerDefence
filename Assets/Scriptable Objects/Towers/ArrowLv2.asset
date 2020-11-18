@@ -27,3 +27,4 @@ MonoBehaviour:
   ConstructionTime: 0
   Upgrades:
   - {fileID: 11400000, guid: 2c176ad0091e6ad4fb0e7bdbab7aed77, type: 2}
+  CanAttack: 1

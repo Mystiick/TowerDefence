@@ -19,4 +19,5 @@ public class TowerScriptableObject : ScriptableObject
     /// <summary>Time in seconds for how long this tower takes to be built/upgraded to</summary>
     public float ConstructionTime;
     public TowerScriptableObject[] Upgrades;
+    public bool CanAttack = true;
 }

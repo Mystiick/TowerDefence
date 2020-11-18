@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27f730f4335f80f47878a530075c7fa0, type: 3}
-  m_Name: ArrowLv1
+  m_Name: Wall
   m_EditorClassIdentifier: 
-  TowerName: Arrow (Level 1)
+  TowerName: Wall
   Width: 2
-  Height: 2
-  Range: 5
-  GoldCost: 100
-  Projectile: {fileID: 1734245126228380, guid: c246c13351c285146b91ea26d3e4cda7, type: 3}
-  PrefabToRender: {fileID: 1376233406905130, guid: acb9eeacca0ea814ab424f6393e71859,
+  Height: 1
+  Range: 10
+  GoldCost: 1
+  Projectile: {fileID: 0}
+  PrefabToRender: {fileID: 1348229408138730, guid: e09a1b1dd1e643e4fab78edda46db369,
     type: 3}
-  Damage: 1
-  AttackCooldown: 1
+  Damage: 0
+  AttackCooldown: 2
   HasCollider: 1
-  Scale: {x: 0.1, y: 0.1, z: 0.1}
+  Scale: {x: 0.15, y: 0.15, z: 0.15}
   ConstructionTime: 0
-  Upgrades:
-  - {fileID: 11400000, guid: d25eaac9fcd4faf418833f41a326262a, type: 2}
-  CanAttack: 1
+  Upgrades: []
+  CanAttack: 0

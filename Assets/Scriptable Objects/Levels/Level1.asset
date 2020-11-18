@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyToSpawn: {fileID: 11400000, guid: c2fb77d170634a34f883bbce49b232a8, type: 2}
   NumberOfSpawns: 10
-  SpawnSpeed: 1
+  SpawnSpeed: 0.25

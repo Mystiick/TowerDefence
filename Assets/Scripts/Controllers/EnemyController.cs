@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     public EnemyScriptableObject Enemy;
 
     public int Health;
+    public bool DestroyInPath;
 
     // Start is called before the first frame update
     void Start()
