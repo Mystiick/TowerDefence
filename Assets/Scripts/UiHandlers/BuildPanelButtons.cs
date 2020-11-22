@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BuildPanelButtons : MonoBehaviour
 {
-    public GameObject buildMenuPanel;
+    //public GameObject buildMenuPanel;
 
     public void SetBuildState(string newState)
     {

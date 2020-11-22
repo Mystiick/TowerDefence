@@ -11,6 +11,7 @@ public class BuildMenuPanel : MonoBehaviour
     public Button ArcherTowerButton;
     public Button WallButton;
     public Button SellButton;
+    public GameObject ButtonPrefab;
     public float Padding;
 
     [Header("Controllers")]
@@ -21,13 +22,15 @@ public class BuildMenuPanel : MonoBehaviour
     public TowerController Target { get; set; }
 
     private BuildingController _bc;
-    private List<Button> _displayButtons;
+    private List<GameObject> _displayButtons;
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Assert(ButtonPrefab != null, $"{nameof(ButtonPrefab)} cannot be null on startup.");
+
         _bc = BuildingController.GetComponent<BuildingController>();
-        _displayButtons = new List<Button>();
+        _displayButtons = new List<GameObject>();
 
         RemoveAllButtons();
         SetBuildState(BuildState.None);
@@ -69,18 +72,18 @@ public class BuildMenuPanel : MonoBehaviour
         switch (CurrentBuildState)
         {
             case BuildState.None:
-                _displayButtons.Add(BuildButton);
+                _displayButtons.Add(BuildButton.gameObject);
                 _bc.ClearPreview();
                 break;
 
             case BuildState.Build:
                 GetBuildableTowerButtons();
-                _displayButtons.Add(CancelButton);
+                _displayButtons.Add(CancelButton.gameObject);
                 break;
 
             case BuildState.Sell:
-                _displayButtons.Add(SellButton);
-                _displayButtons.Add(CancelButton);
+                _displayButtons.Add(SellButton.gameObject);
+                _displayButtons.Add(CancelButton.gameObject);
                 break;
 
             default:
@@ -92,7 +95,13 @@ public class BuildMenuPanel : MonoBehaviour
     {
         for (int i = 0; i < this.transform.childCount; i++)
         {
-            this.transform.GetChild(i).gameObject.SetActive(false);
+            GameObject go = this.transform.GetChild(i).gameObject;
+            go.SetActive(false);
+
+            if (go.CompareTag(Tags.Generated))
+            {
+                Destroy(go);
+            }
         }
     }
 
@@ -101,14 +110,21 @@ public class BuildMenuPanel : MonoBehaviour
         foreach (var tower in PlayerController.Instance.BuildableTowers)
         {
             // Create New Button
-
-            // Add Text child
+            var prefab = Instantiate(ButtonPrefab);
+            prefab.GetComponentInChildren<Text>().text = tower.TowerName;
+            prefab.transform.SetParent(this.transform, false);
+            prefab.name += tower.TowerName;
+            prefab.tag = Tags.Generated;
 
             // Wire up events
+            var button = prefab.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                SetBuildTower(tower);
+            });
 
             // Add to _displayButtons
+            _displayButtons.Add(prefab);
         }
-        _displayButtons.Add(ArcherTowerButton);
-        _displayButtons.Add(WallButton);
     }
 }

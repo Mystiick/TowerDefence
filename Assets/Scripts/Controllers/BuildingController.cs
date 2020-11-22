@@ -58,7 +58,7 @@ public class BuildingController : MonoBehaviour
         _currentTower = tower;
 
         // Build out tower to show in preview
-        _tempTower = new GameObject();
+        _tempTower = new GameObject() { name = "Temp Tower Preview" };
         AddChild(_tempTower, _currentTower.PrefabToRender, _currentTower.Scale);
         var tc = AddChild(_tempTower, this.tileCover, new Vector3(_currentTower.Width, 1, _currentTower.Height) * TileSize / 10f);
 
@@ -95,12 +95,12 @@ public class BuildingController : MonoBehaviour
     }
 
     private void SpawnTower()
-    {
-        
+    {        
         Vector3 colliderSize = new Vector3(_currentTower.Width * 5 - .1f, 1, _currentTower.Height * 5 - .1f) * .1f;
 
         // Look if we are colliding with anything
         Collider[] overlaps = Physics.OverlapBox(buildingPreview.transform.position, colliderSize / 2, Quaternion.identity, LayerMask.Default);
+
         // Ignore any triggers
         overlaps = overlaps.Where(x => !x.isTrigger).ToArray();
 
@@ -109,6 +109,7 @@ public class BuildingController : MonoBehaviour
             // Mouse has been pressed, copy building preview to a real tower
             var go = Instantiate(_tempTower);
             go.transform.position = buildingPreview.transform.position;
+            go.name = $"(Clone){_currentTower.TowerName}";
 
             var bc = go.AddComponent<BoxCollider>();
             bc.size = colliderSize;
@@ -117,11 +118,18 @@ public class BuildingController : MonoBehaviour
             var tc = go.AddComponent<TowerController>();
             tc.Tower = _currentTower;
 
-            var nmo = go.AddComponent<NavMeshObstacle>();
-            nmo.carving = true;
-            nmo.size = colliderSize;
+            var obstacle = go.AddComponent<NavMeshObstacle>();
+            obstacle.carving = true;
+            obstacle.size = colliderSize;
 
-            var sc = go.AddComponent<SphereCollider>();
+            var collider = new GameObject()
+            {
+                layer = Layer.IgnoreRaycast,
+                name = "Range Collider"
+            };
+            collider.transform.SetParent(go.transform);
+            collider.transform.localPosition = Vector3.zero;
+            var sc = collider.AddComponent<SphereCollider>();
             sc.center = Vector3.zero;
             sc.radius = _currentTower.Range;
             sc.isTrigger = true;

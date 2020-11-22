@@ -90,8 +90,8 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
                 var tc = hit.collider.gameObject.GetComponent<TowerController>();
-
-                if (tc != null)
+                
+                if (tc != null && !hit.collider.isTrigger)
                 {
                     UserInterfaceController.Instance.BuildPanel.Target = tc;
                     UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Sell);
