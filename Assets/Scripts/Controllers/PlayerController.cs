@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int _level;
 
+    public TowerScriptableObject[] BuildableTowers;
+    
     public int Gold
     {
         get
@@ -88,7 +90,7 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
                 var tc = hit.collider.gameObject.GetComponent<TowerController>();
-
+                
                 if (tc != null)
                 {
                     UserInterfaceController.Instance.BuildPanel.Target = tc;

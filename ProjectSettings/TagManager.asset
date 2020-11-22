@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Buildable
   - Enemy
+  - Generated
   layers:
   - Default
   - TransparentFX
