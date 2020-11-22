@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             {
                 var tc = hit.collider.gameObject.GetComponent<TowerController>();
                 
-                if (tc != null && !hit.collider.isTrigger)
+                if (tc != null)
                 {
                     UserInterfaceController.Instance.BuildPanel.Target = tc;
                     UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Sell);

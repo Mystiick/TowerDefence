@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 
 public class BuildingController : MonoBehaviour
 {
@@ -43,10 +44,11 @@ public class BuildingController : MonoBehaviour
                 hit.point.y - (hit.point.y % TileSize),
                 hit.point.z - (hit.point.z % TileSize)
             );
-            Debug.Assert(buildingPreview.transform.position == (hit.point - hit.point.Mod(TileSize)));
 
-            if (Input.GetMouseButtonDown(0))
-            {
+            // IsPointerOverGameObject tells us if the pointer is over a UI GameObject.
+            // Don't spawn a tower if we are trying to click on a button
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            {                
                 SpawnTower();
             }
         }

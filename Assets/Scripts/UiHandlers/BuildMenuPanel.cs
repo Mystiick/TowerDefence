@@ -8,8 +8,6 @@ public class BuildMenuPanel : MonoBehaviour
     [Header("Buttons")]
     public Button BuildButton;
     public Button CancelButton;
-    public Button ArcherTowerButton;
-    public Button WallButton;
     public Button SellButton;
     public GameObject ButtonPrefab;
     public float Padding;
@@ -55,7 +53,6 @@ public class BuildMenuPanel : MonoBehaviour
         for (int i = 0; i < _displayButtons.Count; i++)
         {
             _displayButtons[i].gameObject.SetActive(true);
-            _displayButtons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -Padding * i);
         }
     }
 
