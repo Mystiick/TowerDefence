@@ -15,14 +15,16 @@ MonoBehaviour:
   TowerName: Arrow (Level 1)
   Width: 2
   Height: 2
-  Range: 10
+  Range: 5
   GoldCost: 100
   Projectile: {fileID: 1734245126228380, guid: c246c13351c285146b91ea26d3e4cda7, type: 3}
   PrefabToRender: {fileID: 1376233406905130, guid: acb9eeacca0ea814ab424f6393e71859,
     type: 3}
   Damage: 1
+  AttackCooldown: 1
   HasCollider: 1
   Scale: {x: 0.1, y: 0.1, z: 0.1}
   ConstructionTime: 0
   Upgrades:
   - {fileID: 11400000, guid: d25eaac9fcd4faf418833f41a326262a, type: 2}
+  CanAttack: 1

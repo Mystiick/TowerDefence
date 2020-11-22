@@ -3,11 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{
-    [Header("Player Stats")]
-    public int Gold;
+{    
+    [SerializeField, Header("Player Stats")]
+    private int _gold;
+    [SerializeField]
+    private int _lives;
+    [SerializeField]
+    private int _level;
 
+    public int Gold
+    {
+        get
+        {
+            return _gold;
+        }
+        set
+        {
+            _gold = value;
+            UserInterfaceController.Instance.UpdatePlayerStats(StatType.Gold, value);
+        }
+    }
 
+    public int Lives
+    {
+        get
+        {
+            return _lives;
+        }
+        set
+        {
+            _lives = value;
+            UserInterfaceController.Instance.UpdatePlayerStats(StatType.Lives, value);
+        }
+    }
+
+    public int Level
+    {
+        get
+        {
+            return _level;
+        }
+        set
+        {
+            _level = value;
+            UserInterfaceController.Instance.UpdatePlayerStats(StatType.Level, value);
+        }
+    }
 
     #region | Instance |
     private static PlayerController _instance;
@@ -28,21 +69,19 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.Gold = 100000;
+        this.Lives = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
-        UserInterfaceController.Instance.GoldLabel.text = Gold.ToString("N0");
-
         CheckUserClick();
     }
 
     void CheckUserClick()
     {
         BuildState currentState = UserInterfaceController.Instance.BuildPanel.CurrentBuildState;
-
 
         if ((currentState == BuildState.None || currentState == BuildState.Sell) && Input.GetMouseButtonDown(0))
         {

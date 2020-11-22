@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "tower", menuName = "Scriptable Objects/Tower", order = 5)]
+[CreateAssetMenu(fileName = "tower", menuName = "Scriptable Objects/Tower")]
 public class TowerScriptableObject : ScriptableObject
 {
     public string TowerName;
@@ -13,9 +13,11 @@ public class TowerScriptableObject : ScriptableObject
     public GameObject Projectile;
     public GameObject PrefabToRender;
     public int Damage;
+    public float AttackCooldown = 2f;
     public bool HasCollider = true;
     public Vector3 Scale;
     /// <summary>Time in seconds for how long this tower takes to be built/upgraded to</summary>
     public float ConstructionTime;
     public TowerScriptableObject[] Upgrades;
+    public bool CanAttack = true;
 }

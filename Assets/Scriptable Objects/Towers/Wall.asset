@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f730f4335f80f47878a530075c7fa0, type: 3}
+  m_Name: Wall
+  m_EditorClassIdentifier: 
+  TowerName: Wall
+  Width: 2
+  Height: 1
+  Range: 10
+  GoldCost: 1
+  Projectile: {fileID: 0}
+  PrefabToRender: {fileID: 1348229408138730, guid: e09a1b1dd1e643e4fab78edda46db369,
+    type: 3}
+  Damage: 0
+  AttackCooldown: 2
+  HasCollider: 1
+  Scale: {x: 0.15, y: 0.15, z: 0.15}
+  ConstructionTime: 0
+  Upgrades: []
+  CanAttack: 0

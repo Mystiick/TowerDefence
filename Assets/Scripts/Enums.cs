@@ -4,3 +4,10 @@
     Build,
     Sell
 }
+
+public enum StatType
+{
+    Gold,
+    Lives,
+    Level
+}

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2518259589046406893}
   - component: {fileID: 2518259589046406892}
   - component: {fileID: 3101637276327390307}
+  - component: {fileID: 4317993208383109095}
+  - component: {fileID: 5562203964303999035}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -59,5 +61,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93faf6f018aa8b469eb0a614560d2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingController: {fileID: 2518259589046406892}
-  debugger: []
+  Gold: 0
+--- !u!114 &4317993208383109095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518259589046406894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ab88f9252b71f4fabdb96df89443c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoldLabel: {fileID: 0}
+  BuildPanel: {fileID: 0}
+--- !u!114 &5562203964303999035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518259589046406894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77815f059a1b39d48846e4b635dc36db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spawner: {fileID: 0}

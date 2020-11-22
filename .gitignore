@@ -60,4 +60,5 @@ crashlytics-build.properties
 
 
 
-/Assets/Lib/**/
+/Assets/Lib/**/*.*
+!*.meta
