@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class BuildPanelButtons : MonoBehaviour
 {
-    //public GameObject buildMenuPanel;
-
     public void SetBuildState(string newState)
     {
         if (Enum.TryParse(newState, out BuildState state))
