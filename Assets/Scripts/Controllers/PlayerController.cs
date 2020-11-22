@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int _level;
 
+    public TowerScriptableObject[] BuildableTowers;
+    
     public int Gold
     {
         get

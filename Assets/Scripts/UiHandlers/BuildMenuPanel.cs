@@ -74,8 +74,7 @@ public class BuildMenuPanel : MonoBehaviour
                 break;
 
             case BuildState.Build:
-                _displayButtons.Add(ArcherTowerButton);
-                _displayButtons.Add(WallButton);
+                GetBuildableTowerButtons();
                 _displayButtons.Add(CancelButton);
                 break;
 
@@ -97,4 +96,19 @@ public class BuildMenuPanel : MonoBehaviour
         }
     }
 
+    private void GetBuildableTowerButtons()
+    {
+        foreach (var tower in PlayerController.Instance.BuildableTowers)
+        {
+            // Create New Button
+
+            // Add Text child
+
+            // Wire up events
+
+            // Add to _displayButtons
+        }
+        _displayButtons.Add(ArcherTowerButton);
+        _displayButtons.Add(WallButton);
+    }
 }

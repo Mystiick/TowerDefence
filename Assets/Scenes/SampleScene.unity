@@ -6792,6 +6792,11 @@ PrefabInstance:
       propertyPath: buildingPreview
       value: 
       objectReference: {fileID: 1285691905}
+    - target: {fileID: 2518259589046406892, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: TileSize
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2518259589046406893, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6859,6 +6864,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101637276327390307, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
+      propertyPath: BuildableTowers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101637276327390307, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
       propertyPath: debugger.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 44c76b554b1afab459b456eea21a290a,
@@ -6897,6 +6907,18 @@ PrefabInstance:
       propertyPath: GoldLabel
       value: 
       objectReference: {fileID: 561471182}
+    - target: {fileID: 3101637276327390307, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: BuildableTowers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 44c76b554b1afab459b456eea21a290a,
+        type: 2}
+    - target: {fileID: 3101637276327390307, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: BuildableTowers.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 37e8345ee1d616f47ac5c5116300a189,
+        type: 2}
     - target: {fileID: 4317993208383109095, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: GoldLabel
