@@ -11,13 +11,20 @@ public class WaveController : MonoBehaviour
     public GameObject Spawner;
     public GameObject Target;
     public int CurrentLevel = 0;
+    public int LevelCountdown;
     public LevelScriptableObject[] Levels;
 
+    // Spawning Variables
     private int _spawnedThisLevel;
-    private float _timeSinceLastSpawn;
     private bool _isSpawning;
     private List<GameObject> _enemies;
     private List<GameObject> _cleanup;
+
+    // Level timer Variables
+    private float _timeToStartLevel;
+    private float _timeSinceLastSpawn;
+    private bool _countDown;
+    private bool _levelTimerEnabled;
 
     #region | Instance |
     private static WaveController _instance;
@@ -38,16 +45,31 @@ public class WaveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Assert(LevelCountdown >= 0, $"{nameof(LevelCountdown)} must be greater than zero.");
+
         _enemies = new List<GameObject>();
         _cleanup = new List<GameObject>();
+
+        ResetCountdown();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_isSpawning)
+        if (_levelTimerEnabled)
         {
-            SpawnWave(Levels[CurrentLevel - 1]);
+            _timeToStartLevel += _countDown ? -Time.deltaTime : Time.deltaTime;
+            UserInterfaceController.Instance.TimeLabel.text = _timeToStartLevel.SecondsToString();
+
+            if (_isSpawning)
+            {
+                SpawnWave(Levels[CurrentLevel - 1]);
+            }
+
+            if (_countDown && _timeToStartLevel <= 0)
+            {
+                BeginNextLevel();
+            }
         }
     }
 
@@ -60,6 +82,7 @@ public class WaveController : MonoBehaviour
             CurrentLevel++;
             _spawnedThisLevel = 0;
             _isSpawning = true;
+            _countDown = false;
             _enemies.Clear();
             
             PlayerController.Instance.Level = CurrentLevel;
@@ -71,6 +94,8 @@ public class WaveController : MonoBehaviour
         else
         {
             Debug.Log("At the end!");
+            _levelTimerEnabled = false;
+            _timeToStartLevel = 0f;
         }
     }
 
@@ -81,13 +106,7 @@ public class WaveController : MonoBehaviour
 
         if (_enemies.Count == 0 && !_isSpawning)
         {
-            Debug.Log("Finished Level, cleaning up");
-
-            foreach (GameObject go in _cleanup)
-            {
-                Destroy(go);
-            }
-            _cleanup.Clear();
+            LevelFinished();
         }
     }
 
@@ -115,6 +134,32 @@ public class WaveController : MonoBehaviour
         if (_spawnedThisLevel >= wave.NumberOfSpawns)
         {
             _isSpawning = false;
+        }
+    }
+
+    private void ResetCountdown()
+    {
+        _timeToStartLevel = LevelCountdown;
+        _countDown = true;
+        _levelTimerEnabled = true;
+    }
+
+    private void LevelFinished()
+    {
+        Debug.Log("Finished Level, cleaning up");
+        ResetCountdown();
+
+        foreach (GameObject go in _cleanup)
+        {
+            Destroy(go);
+        }
+        _cleanup.Clear();
+
+        // If there are no more levels to complete, turn off the timer and win the game
+        if (CurrentLevel == Levels.Length)
+        {
+            _levelTimerEnabled = true;
+            _timeToStartLevel = 0f;
         }
     }
 }

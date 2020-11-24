@@ -10,6 +10,7 @@ public class UserInterfaceController : MonoBehaviour
     public Text GoldLabel;
     public Text LivesLabel;
     public Text LevelLabel;
+    public Text TimeLabel;
     public BuildMenuPanel BuildPanel;
 
     #region | Instance |
