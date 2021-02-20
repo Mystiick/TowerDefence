@@ -108,8 +108,8 @@ public class WaveController : MonoBehaviour
         {
             for (int i = 0; i < w.NumberOfSpawns; i++)
             {
-                // TODO: Implement pool
-                var go = Instantiate(w.EnemyToSpawn.PrefabToRender);
+                var go = ObjectPool.Instance.GetObject(w.EnemyToSpawn.PrefabToRender);
+
                 go.transform.position = Spawner.transform.position;
                 go.layer = Layer.Enemy;
 
@@ -170,7 +170,7 @@ public class WaveController : MonoBehaviour
 
         foreach (GameObject go in _cleanup)
         {
-            Destroy(go);
+            ObjectPool.Instance.ReleaseObject(go);
         }
         _cleanup.Clear();
 

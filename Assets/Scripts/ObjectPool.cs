@@ -51,13 +51,22 @@ public class ObjectPool : MonoBehaviour
         {
             var go = Instantiate(prefab);
             go.SetActive(false);
+
+            var poo = go.AddComponent<PooledObject>();
+            poo.Prefab = prefab;
+
             current.Enqueue(go);
         }
     }
 
     public GameObject GetObject(GameObject prefab)
     {
-        var current = _pool[prefab];
+        if (!_pool.ContainsKey(prefab))
+        {
+            PreWarm(prefab, 10);
+        }
+
+        Queue<GameObject> current = _pool[prefab];
 
         if (current.Peek() == null)
         {
@@ -67,8 +76,13 @@ public class ObjectPool : MonoBehaviour
         return _pool[prefab].Dequeue();
     }
 
-    public void ReleaseObject(GameObject prefab, GameObject go)
+    public void ReleaseObject(GameObject go, GameObject prefab = null)
     {
+        if (prefab == null)
+        {
+            prefab = go.GetComponent<PooledObject>().Prefab;
+        }
+
         go.SetActive(false);
         _pool[prefab].Enqueue(go);
     }
