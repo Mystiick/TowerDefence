@@ -28,4 +28,12 @@ public static class Extensions
             me.z % modAmount
         );
     }
+
+    public static string SecondsToString(this float me)
+    {
+        int minutes = (int)me / 60;
+        int seconds = (int)me % 60;
+
+        return $"{minutes:00}:{seconds:00}";
+    }
 }

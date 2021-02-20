@@ -11,13 +11,20 @@ public class WaveController : MonoBehaviour
     public GameObject Spawner;
     public GameObject Target;
     public int CurrentLevel = 0;
+    public int LevelCountdown;
     public LevelScriptableObject[] Levels;
 
-    private int _spawnedThisLevel;
-    private float _timeSinceLastSpawn;
+    // Spawning Variables
     private bool _isSpawning;
-    private List<GameObject> _enemies;
+    private Queue<GameObject> _enemyQueue;
+    private List<GameObject> _aliveEnemies;
     private List<GameObject> _cleanup;
+
+    // Level timer Variables
+    private float _timeToStartLevel;
+    private float _timeSinceLastSpawn;
+    private bool _countDown;
+    private bool _levelTimerEnabled;
 
     #region | Instance |
     private static WaveController _instance;
@@ -38,16 +45,32 @@ public class WaveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _enemies = new List<GameObject>();
+        Debug.Assert(LevelCountdown >= 0, $"{nameof(LevelCountdown)} must be greater than zero.");
+
+        _aliveEnemies = new List<GameObject>();
         _cleanup = new List<GameObject>();
+        _enemyQueue = new Queue<GameObject>();
+
+        ResetCountdown();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_isSpawning)
+        if (_levelTimerEnabled)
         {
-            SpawnWave(Levels[CurrentLevel - 1]);
+            _timeToStartLevel += _countDown ? -Time.deltaTime : Time.deltaTime;
+            UserInterfaceController.Instance.TimeLabel.text = _timeToStartLevel.SecondsToString();
+
+            if (_isSpawning)
+            {
+                SpawnWave();
+            }
+
+            if (_countDown && _timeToStartLevel <= 0)
+            {
+                BeginNextLevel();
+            }
         }
     }
 
@@ -55,66 +78,107 @@ public class WaveController : MonoBehaviour
     {
         Debug.Assert(Levels.Length > 0, $"{MethodBase.GetCurrentMethod().Name} should not be called without '{nameof(Levels)}' being initialized first.");
 
-        if (CurrentLevel < Levels.Length && _enemies.Count == 0)
+        if (CurrentLevel < Levels.Length && _aliveEnemies.Count == 0)
         {
             CurrentLevel++;
-            _spawnedThisLevel = 0;
             _isSpawning = true;
-            _enemies.Clear();
+            _countDown = false;
+            _aliveEnemies.Clear();
+            LoadEnemyQueue(Levels[CurrentLevel - 1]);
             
             PlayerController.Instance.Level = CurrentLevel;
         }
-        else if(_enemies.Count != 0) 
+        else if(_aliveEnemies.Count != 0) 
         {
             Debug.Log("Level In Progress");
         }
         else
         {
             Debug.Log("At the end!");
+            _levelTimerEnabled = false;
+            _timeToStartLevel = 0f;
         }
     }
 
-    public void RemoveFromLevel(GameObject enemy)
+    private void LoadEnemyQueue(LevelScriptableObject level)
     {
-        _enemies.Remove(enemy);
-        _cleanup.Add(enemy);
+        _enemyQueue.Clear();
 
-        if (_enemies.Count == 0 && !_isSpawning)
+        foreach (Wave w in level.Waves)
         {
-            Debug.Log("Finished Level, cleaning up");
-
-            foreach (GameObject go in _cleanup)
+            for (int i = 0; i < w.NumberOfSpawns; i++)
             {
-                Destroy(go);
+                var go = ObjectPool.Instance.GetObject(w.EnemyToSpawn.PrefabToRender);
+
+                go.transform.position = Spawner.transform.position;
+                go.layer = Layer.Enemy;
+
+                var ec = go.GetComponent<EnemyController>();
+                ec.target = this.Target;
+                ec.Enemy = w.EnemyToSpawn;
+
+                go.SetActive(false);
+
+                _enemyQueue.Enqueue(go);
             }
-            _cleanup.Clear();
         }
     }
 
-    private void SpawnWave(LevelScriptableObject wave)
+    private void SpawnWave()
     {
+        var wave = Levels[CurrentLevel - 1];
         _timeSinceLastSpawn += Time.deltaTime;
 
         if (_timeSinceLastSpawn >= wave.SpawnSpeed)
         {
             // Spawn enemy
-            var go = Instantiate(wave.EnemyToSpawn.PrefabToRender);
-            go.transform.position = Spawner.transform.position;
-            go.layer = Layer.Enemy;
+            var go = _enemyQueue.Dequeue();
+            go.SetActive(true);
 
-            var ec = go.GetComponent<EnemyController>();
-            ec.target = this.Target;
-            ec.Enemy = wave.EnemyToSpawn;
-
-            // Reset spawn time and count up
             _timeSinceLastSpawn = 0f;
-            _spawnedThisLevel++;
-            _enemies.Add(go);
+            _aliveEnemies.Add(go);
         }
 
-        if (_spawnedThisLevel >= wave.NumberOfSpawns)
+        if (_enemyQueue.Count == 0)
         {
             _isSpawning = false;
+        }
+    }
+
+    public void RemoveFromLevel(GameObject enemy)
+    {
+        _aliveEnemies.Remove(enemy);
+        _cleanup.Add(enemy);
+
+        if (_aliveEnemies.Count == 0 && !_isSpawning)
+        {
+            LevelFinished();
+        }
+    }
+
+    private void ResetCountdown()
+    {
+        _timeToStartLevel = LevelCountdown;
+        _countDown = true;
+        _levelTimerEnabled = true;
+    }
+
+    private void LevelFinished()
+    {
+        Debug.Log("Finished Level, cleaning up");
+        ResetCountdown();
+
+        foreach (GameObject go in _cleanup)
+        {
+            ObjectPool.Instance.ReleaseObject(go);
+        }
+        _cleanup.Clear();
+
+        // If there are no more levels to complete, turn off the timer and win the game
+        if (CurrentLevel == Levels.Length)
+        {
+            _levelTimerEnabled = true;
+            _timeToStartLevel = 0f;
         }
     }
 }
