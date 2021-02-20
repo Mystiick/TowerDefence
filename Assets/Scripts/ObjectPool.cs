@@ -68,7 +68,7 @@ public class ObjectPool : MonoBehaviour
 
         Queue<GameObject> current = _pool[prefab];
 
-        if (current.Peek() == null)
+        if (current.Count == 0)
         {
             PreWarm(prefab, 10);
         }

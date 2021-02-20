@@ -66,13 +66,18 @@ public class TowerController : MonoBehaviour
             {
                 Debug.Log("Found Target, attacking");
                 // Fire projectile/spell
-                GameObject go = Instantiate(Tower.Projectile);
+                GameObject go = ObjectPool.Instance.GetObject(Tower.Projectile);
+                go.SetActive(true);
                 go.transform.position = this.transform.position;
 
-                var pc = go.AddComponent<ProjectileController>();
+                if (!go.TryGetComponent<ProjectileController>(out var pc))
+                {
+                    pc = go.AddComponent<ProjectileController>();
+                }
                 pc.Target = closest;
                 pc.TravelTime = .5f;
                 pc.Damage = Tower.Damage;
+                pc.ExistanceTime = 0f;
 
                 // Reset cooldown
                 _cooldownRemaining = Tower.AttackCooldown;
