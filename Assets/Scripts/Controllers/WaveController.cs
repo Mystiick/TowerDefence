@@ -15,9 +15,9 @@ public class WaveController : MonoBehaviour
     public LevelScriptableObject[] Levels;
 
     // Spawning Variables
-    private int _spawnedThisLevel;
     private bool _isSpawning;
-    private List<GameObject> _enemies;
+    private Queue<GameObject> _enemyQueue;
+    private List<GameObject> _aliveEnemies;
     private List<GameObject> _cleanup;
 
     // Level timer Variables
@@ -47,8 +47,9 @@ public class WaveController : MonoBehaviour
     {
         Debug.Assert(LevelCountdown >= 0, $"{nameof(LevelCountdown)} must be greater than zero.");
 
-        _enemies = new List<GameObject>();
+        _aliveEnemies = new List<GameObject>();
         _cleanup = new List<GameObject>();
+        _enemyQueue = new Queue<GameObject>();
 
         ResetCountdown();
     }
@@ -63,7 +64,7 @@ public class WaveController : MonoBehaviour
 
             if (_isSpawning)
             {
-                SpawnWave(Levels[CurrentLevel - 1]);
+                SpawnWave();
             }
 
             if (_countDown && _timeToStartLevel <= 0)
@@ -77,17 +78,17 @@ public class WaveController : MonoBehaviour
     {
         Debug.Assert(Levels.Length > 0, $"{MethodBase.GetCurrentMethod().Name} should not be called without '{nameof(Levels)}' being initialized first.");
 
-        if (CurrentLevel < Levels.Length && _enemies.Count == 0)
+        if (CurrentLevel < Levels.Length && _aliveEnemies.Count == 0)
         {
             CurrentLevel++;
-            _spawnedThisLevel = 0;
             _isSpawning = true;
             _countDown = false;
-            _enemies.Clear();
+            _aliveEnemies.Clear();
+            LoadEnemyQueue(Levels[CurrentLevel - 1]);
             
             PlayerController.Instance.Level = CurrentLevel;
         }
-        else if(_enemies.Count != 0) 
+        else if(_aliveEnemies.Count != 0) 
         {
             Debug.Log("Level In Progress");
         }
@@ -99,41 +100,59 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    public void RemoveFromLevel(GameObject enemy)
+    private void LoadEnemyQueue(LevelScriptableObject level)
     {
-        _enemies.Remove(enemy);
-        _cleanup.Add(enemy);
+        _enemyQueue.Clear();
 
-        if (_enemies.Count == 0 && !_isSpawning)
+        foreach (Wave w in level.Waves)
         {
-            LevelFinished();
+            for (int i = 0; i < w.NumberOfSpawns; i++)
+            {
+                // TODO: Implement pool
+                var go = Instantiate(w.EnemyToSpawn.PrefabToRender);
+                go.transform.position = Spawner.transform.position;
+                go.layer = Layer.Enemy;
+
+                var ec = go.GetComponent<EnemyController>();
+                ec.target = this.Target;
+                ec.Enemy = w.EnemyToSpawn;
+
+                go.SetActive(false);
+
+                _enemyQueue.Enqueue(go);
+            }
         }
     }
 
-    private void SpawnWave(LevelScriptableObject wave)
+    private void SpawnWave()
     {
+        var wave = Levels[CurrentLevel - 1];
         _timeSinceLastSpawn += Time.deltaTime;
 
         if (_timeSinceLastSpawn >= wave.SpawnSpeed)
         {
             // Spawn enemy
-            var go = Instantiate(wave.EnemyToSpawn.PrefabToRender);
-            go.transform.position = Spawner.transform.position;
-            go.layer = Layer.Enemy;
+            var go = _enemyQueue.Dequeue();
+            go.SetActive(true);
 
-            var ec = go.GetComponent<EnemyController>();
-            ec.target = this.Target;
-            ec.Enemy = wave.EnemyToSpawn;
-
-            // Reset spawn time and count up
             _timeSinceLastSpawn = 0f;
-            _spawnedThisLevel++;
-            _enemies.Add(go);
+            _aliveEnemies.Add(go);
         }
 
-        if (_spawnedThisLevel >= wave.NumberOfSpawns)
+        if (_enemyQueue.Count == 0)
         {
             _isSpawning = false;
+        }
+    }
+
+    public void RemoveFromLevel(GameObject enemy)
+    {
+        _aliveEnemies.Remove(enemy);
+        _cleanup.Add(enemy);
+
+        if (_aliveEnemies.Count == 0 && !_isSpawning)
+        {
+            LevelFinished();
         }
     }
 

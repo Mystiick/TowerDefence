@@ -1997,7 +1997,7 @@ Transform:
   - {fileID: 266910757}
   - {fileID: 28267926}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &445438000
 GameObject:
@@ -7290,7 +7290,7 @@ PrefabInstance:
     - target: {fileID: 2518259589046406893, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2518259589046406893, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
@@ -7471,7 +7471,7 @@ PrefabInstance:
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: LevelCountdown
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
@@ -7482,13 +7482,30 @@ PrefabInstance:
         type: 3}
       propertyPath: Levels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 3397f2e3e121ae24dbab83ee17f37147,
+      objectReference: {fileID: 11400000, guid: 9bf92f0bf1e29644cb7183930f005fdc,
         type: 2}
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: Levels.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 72ca44b0263c5bd45a0038ed80652961,
+      objectReference: {fileID: 11400000, guid: 7b9c346c989832a45b51ac5ea15785a3,
+        type: 2}
+    - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: LevelsAndWaves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: LevelsAndWaves.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9bf92f0bf1e29644cb7183930f005fdc,
+        type: 2}
+    - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: LevelsAndWaves.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b9c346c989832a45b51ac5ea15785a3,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0931b4adcce78499bbfdfa15ef2bf3, type: 3}
