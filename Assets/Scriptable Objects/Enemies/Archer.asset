@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3587016b5f857c446b1a5524426c0398, type: 3}
-  m_Name: Mage
+  m_Name: Archer
   m_EditorClassIdentifier: 
-  EnemyName: Mage
+  EnemyName: Archer
   Speed: 1
-  GoldValue: 25
-  Health: 1
-  PrefabToRender: {fileID: 4493180641914793457, guid: a981edf4c5ac6c448846269546a4c3f8,
+  GoldValue: 15
+  Health: 3
+  PrefabToRender: {fileID: 8896258364803930284, guid: 63291e4f9d6b29146b3c82311ec5cc0d,
     type: 3}
   Scale: {x: 0.1, y: 0.1, z: 0.1}

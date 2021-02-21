@@ -21,7 +21,7 @@ public class WaveController : MonoBehaviour
     private List<GameObject> _cleanup;
 
     // Level timer Variables
-    private float _timeToStartLevel;
+    public float _timeToStartLevel;
     private float _timeSinceLastSpawn;
     private bool _countDown;
     private bool _levelTimerEnabled;
@@ -106,6 +106,8 @@ public class WaveController : MonoBehaviour
 
         foreach (Wave w in level.Waves)
         {
+            Debug.Assert(w.HealthModifier != 0);
+
             for (int i = 0; i < w.NumberOfSpawns; i++)
             {
                 var go = ObjectPool.Instance.GetObject(w.EnemyToSpawn.PrefabToRender);
@@ -116,6 +118,7 @@ public class WaveController : MonoBehaviour
                 var ec = go.GetComponent<EnemyController>();
                 ec.target = this.Target;
                 ec.Enemy = w.EnemyToSpawn;
+                ec.Health = (int)(w.EnemyToSpawn.Health * w.HealthModifier);
 
                 go.SetActive(false);
 

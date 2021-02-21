@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.Gold = 100000;
+        this.Gold = 1250;
         this.Lives = 100;
     }
 
