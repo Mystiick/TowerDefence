@@ -26,6 +26,9 @@ public class TowerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Refunds the player partial amount of the tower's gold cost and destroys it.
+    /// </summary>
     public void Sell()
     {
         // Only sell active towers
@@ -39,6 +42,9 @@ public class TowerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Finds the closest enemy and throws a projectile at it.
+    /// </summary>
     private void UpdateAttack()
     {
         _cooldownRemaining -= Time.deltaTime;

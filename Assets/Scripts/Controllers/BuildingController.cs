@@ -32,6 +32,10 @@ public class BuildingController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the position of the preview tower by following the mouse around.
+    /// If the mouse button is pressed, spanwn that tower.
+    /// </summary>
     private void UpdatePreview()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -54,6 +58,10 @@ public class BuildingController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the preview tower to the specified <see cref="TowerScriptableObject"/>
+    /// </summary>
+    /// <param name="tower"></param>
     public void SetPreview(TowerScriptableObject tower)
     {
         ResetBuildingController();
@@ -72,6 +80,9 @@ public class BuildingController : MonoBehaviour
         _tempTower.transform.localPosition = Vector3.zero;
     }
 
+    /// <summary>
+    /// Empties the tower preview so no tower is following the cursor around.
+    /// </summary>
     public void ClearPreview()
     {
         ResetBuildingController();
@@ -88,6 +99,9 @@ public class BuildingController : MonoBehaviour
         return go;
     }
 
+    /// <summary>
+    /// Clears out the building preview's children
+    /// </summary>
     private void ResetBuildingController()
     {
         foreach (Transform c in buildingPreview.transform)
@@ -95,7 +109,10 @@ public class BuildingController : MonoBehaviour
             Destroy(c.gameObject);
         }
     }
-
+    
+    /// <summary>
+    /// Instantiate a real tower if possible, and add all relevant components.
+    /// </summary>
     private void SpawnTower()
     {        
         Vector3 colliderSize = new Vector3(_currentTower.Width * 5 - .1f, 1, _currentTower.Height * 5 - .1f) * .1f;

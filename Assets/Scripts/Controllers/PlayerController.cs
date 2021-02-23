@@ -81,6 +81,10 @@ public class PlayerController : MonoBehaviour
         CheckUserClick();
     }
 
+    /// <summary>
+    /// Handles when the user clicks the left mouse button.
+    /// Shoots out a ray and targets the collided unit if one exists.
+    /// </summary>
     void CheckUserClick()
     {
         BuildState currentState = UserInterfaceController.Instance.BuildPanel.CurrentBuildState;
