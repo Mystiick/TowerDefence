@@ -13,8 +13,7 @@ public class EnemyController : MonoBehaviour
     public int Health;
     public bool DestroyInPath;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         Debug.Assert(target != null);
 
@@ -22,8 +21,6 @@ public class EnemyController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
         _agent.SetDestination(target.transform.position);
-
-        Health = Enemy.Health;
     }
 
     // Update is called once per frame

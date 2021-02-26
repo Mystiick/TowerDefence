@@ -148,6 +148,8 @@ public class WaveController : MonoBehaviour
             // Spawn enemy
             var go = _enemyQueue.Dequeue();
             go.SetActive(true);
+            var ec = go.GetComponent<EnemyController>();
+            ec.Init();
 
             _timeSinceLastSpawn = 0f;
             _aliveEnemies.Add(go);

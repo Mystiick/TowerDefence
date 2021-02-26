@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe914ba1cebe8c344be33ec848c542c1, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  SpawnSpeed: 0.25
+  SpawnSpeed: 0.1
   Waves:
   - EnemyToSpawn: {fileID: 11400000, guid: 6f31410e77b7feb4ba5125b062dcedc5, type: 2}
     NumberOfSpawns: 15
