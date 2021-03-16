@@ -34,3 +34,9 @@ public class Tags
     public const string Finish = "Finish";
     public const string Enemy = "Enemy";
 }
+
+public class GameObjectNames
+{
+    public const string RangeCollider = "Range Collider";
+    public const string TowerModel = "Tower Model";
+}

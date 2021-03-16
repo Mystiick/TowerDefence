@@ -43,6 +43,41 @@ public class TowerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Upgrades this tower to the specified <paramref name="newTower"/> tower
+    /// </summary>
+    /// <param name="newTower"></param>
+    public void TryUpgrade(TowerScriptableObject newTower)
+    {
+        if (PlayerController.Instance.Gold >= newTower.GoldCost)
+        {
+            Debug.Log($"Upgrading tower to: {newTower.TowerName}");
+
+            PlayerController.Instance.Gold -= newTower.GoldCost;
+
+            // Destroy the old tower
+            var model = this.transform.Find(GameObjectNames.TowerModel);
+            Destroy(model.gameObject);
+
+            // Create the new tower and position it
+            GameObject newModel = Instantiate(newTower.PrefabToRender);
+            newModel.transform.parent = this.transform;
+            newModel.transform.localPosition = Vector3.zero;
+            newModel.transform.localScale = newTower.Scale;
+            newModel.name = GameObjectNames.TowerModel;
+
+            // Update scriptable object
+            this.Tower = newTower;
+
+            // Update range
+            var range = this.transform.Find(GameObjectNames.RangeCollider);
+            range.GetComponent<SphereCollider>().radius = newTower.Range;
+        }
+
+        // Set the build state again to update the buttons based on the new tower
+        UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Selected);
+    }
+
+    /// <summary>
     /// Finds the closest enemy and throws a projectile at it.
     /// </summary>
     private void UpdateAttack()
@@ -80,6 +115,10 @@ public class TowerController : MonoBehaviour
                 {
                     pc = go.AddComponent<ProjectileController>();
                 }
+
+                pc.Init();
+
+                //TODO: Pull this data from the Tower's scriptable object
                 pc.Target = closest;
                 pc.TravelTime = .5f;
                 pc.Damage = Tower.Damage;

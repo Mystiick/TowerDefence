@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,11 @@ public class BuildMenuPanel : MonoBehaviour
     public TowerController Target { get; set; }
 
     private BuildingController _bc;
+    
+    /// <summary>
+    /// List that contains all active buttons. 
+    /// Buttons added to the list will be reparented to this.transform, which allows them to display in the GridLayout
+    /// </summary>
     private List<GameObject> _displayButtons;
 
     // Start is called before the first frame update
@@ -30,21 +36,21 @@ public class BuildMenuPanel : MonoBehaviour
         _bc = BuildingController.GetComponent<BuildingController>();
         _displayButtons = new List<GameObject>();
 
-        RemoveAllButtons();
+        DestroyGeneratedButtons();
         SetBuildState(BuildState.None);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetBuildState(BuildState newState)
     {
         // Reset current state
         CurrentBuildState = newState;
-        RemoveAllButtons();
+        DestroyGeneratedButtons();
 
         // Determine new buttons to show
         SetDisplayButtons();
@@ -52,6 +58,7 @@ public class BuildMenuPanel : MonoBehaviour
         // Actually show them
         for (int i = 0; i < _displayButtons.Count; i++)
         {
+            _displayButtons[i].transform.SetParent(this.transform, false);
             _displayButtons[i].gameObject.SetActive(true);
         }
     }
@@ -78,7 +85,8 @@ public class BuildMenuPanel : MonoBehaviour
                 _displayButtons.Add(CancelButton.gameObject);
                 break;
 
-            case BuildState.Sell:
+            case BuildState.Selected:
+                GetUpgradeButtons();
                 _displayButtons.Add(SellButton.gameObject);
                 _displayButtons.Add(CancelButton.gameObject);
                 break;
@@ -88,7 +96,10 @@ public class BuildMenuPanel : MonoBehaviour
         }
     }
 
-    private void RemoveAllButtons()
+    /// <summary>
+    /// Cleans up generated buttons by destroying the gameobject
+    /// </summary>
+    private void DestroyGeneratedButtons()
     {
         for (int i = 0; i < this.transform.childCount; i++)
         {
@@ -102,26 +113,50 @@ public class BuildMenuPanel : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loops through all the buildable base towers and generates buttons for each.
+    /// </summary>
     private void GetBuildableTowerButtons()
     {
         foreach (var tower in PlayerController.Instance.BuildableTowers)
         {
-            // Create New Button
-            var prefab = Instantiate(ButtonPrefab);
-            prefab.GetComponentInChildren<Text>().text = tower.TowerName;
-            prefab.transform.SetParent(this.transform, false);
-            prefab.name += tower.TowerName;
-            prefab.tag = Tags.Generated;
-
-            // Wire up events
-            var button = prefab.GetComponent<Button>();
-            button.onClick.AddListener(() =>
-            {
-                SetBuildTower(tower);
-            });
-
-            // Add to _displayButtons
-            _displayButtons.Add(prefab);
+            GenerateButton(tower.TowerName, () => SetBuildTower(tower));
         }
+    }
+
+    private void GetUpgradeButtons()
+    {
+        var output = new List<GameObject>();
+        var selectedTower = UserInterfaceController.Instance.BuildPanel.Target;
+
+        if (UserInterfaceController.Instance.BuildPanel.Target.Tower.Upgrades.Length > 0)
+        {
+            foreach (TowerScriptableObject upgrade in selectedTower.Tower.Upgrades)
+            {
+                GenerateButton($"{upgrade.GoldCost}G : {upgrade.TowerName}", () => selectedTower.TryUpgrade(upgrade));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Generates a button to display on the UI and adds them to the <see cref="_displayButtons"/> list
+    /// Tags the returned GameObject with 'Generated' so it can be cleaned up when no longer needed.
+    /// </summary>
+    /// <param name="text">Text to display on the button</param>
+    /// <param name="onClick">OnClick Action to trigger when the button is pressed</param>
+    private GameObject GenerateButton(string text, UnityEngine.Events.UnityAction onClick)
+    {
+        var prefab = Instantiate(ButtonPrefab);
+        prefab.GetComponentInChildren<Text>().text = text;
+        prefab.name += text;
+        prefab.tag = Tags.Generated;
+
+        // Wire up events
+        var button = prefab.GetComponent<Button>();
+        button.onClick.AddListener(onClick);
+
+        _displayButtons.Add(prefab);
+
+        return prefab;
     }
 }

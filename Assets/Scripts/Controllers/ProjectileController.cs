@@ -8,16 +8,25 @@ public class ProjectileController : MonoBehaviour
     public float TravelTime;
     public float ExistanceTime;
     public int Damage;
+    public Vector3 origin;
 
     // Update is called once per frame
     void Update()
     {
         Debug.Assert(Target != null);
 
+        if (origin == Vector3.zero) 
+        {
+            this.Init();
+        }
+
         if (ExistanceTime <= TravelTime)
         {
             ExistanceTime += Time.deltaTime;
-            this.transform.position = Vector3.Lerp(this.transform.position, Target.transform.position, ExistanceTime / TravelTime);
+            Vector3 target = Vector3.Lerp(origin, Target.transform.position, ExistanceTime / TravelTime);
+
+            transform.rotation = Quaternion.LookRotation(origin - target);
+            transform.position = target;
         }
         else
         {
@@ -38,5 +47,11 @@ public class ProjectileController : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+    }
+
+    /// <summary>Resets any values on the projectile that should not persist in the </summary>
+    public void Init()
+    {
+        origin = this.transform.position;
     }
 }

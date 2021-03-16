@@ -2,7 +2,7 @@
 {
     None,
     Build,
-    Sell
+    Selected
 }
 
 public enum StatType

@@ -5161,7 +5161,7 @@ GameObject:
   - component: {fileID: 1304546972}
   - component: {fileID: 1304546971}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: BuildMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7395,7 +7395,7 @@ PrefabInstance:
     - target: {fileID: 3101637276327390307, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: BuildableTowers.Array.size
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3101637276327390307, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}

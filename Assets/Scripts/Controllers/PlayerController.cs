@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         BuildState currentState = UserInterfaceController.Instance.BuildPanel.CurrentBuildState;
 
-        if ((currentState == BuildState.None || currentState == BuildState.Sell) && Input.GetMouseButtonDown(0))
+        if ((currentState == BuildState.None || currentState == BuildState.Selected) && Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
                 if (tc != null)
                 {
                     UserInterfaceController.Instance.BuildPanel.Target = tc;
-                    UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Sell);
+                    UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Selected);
                 }
             }
         }

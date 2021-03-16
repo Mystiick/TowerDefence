@@ -69,11 +69,11 @@ public class BuildingController : MonoBehaviour
 
         // Build out tower to show in preview
         _tempTower = new GameObject() { name = "Temp Tower Preview" };
-        AddChild(_tempTower, _currentTower.PrefabToRender, _currentTower.Scale);
-        var tc = AddChild(_tempTower, this.tileCover, new Vector3(_currentTower.Width, 1, _currentTower.Height) * TileSize / 10f);
+        AddChild(_tempTower, _currentTower.PrefabToRender, _currentTower.Scale, GameObjectNames.TowerModel);
+        var towerTileCover = AddChild(_tempTower, this.tileCover, new Vector3(_currentTower.Width, 1, _currentTower.Height) * TileSize / 10f, "Tile Cover");
 
         // Bump up the Y axis 0.01, to prevent Y fighting
-        tc.transform.localPosition = new Vector3(0, .01f, 0);
+        towerTileCover.transform.localPosition = new Vector3(0, .01f, 0);
 
         // Add tower to the preview
         _tempTower.transform.parent = buildingPreview.transform;
@@ -89,12 +89,13 @@ public class BuildingController : MonoBehaviour
         _currentTower = null;
     }
 
-    private GameObject AddChild(GameObject parent, GameObject child, Vector3 scale)
+    private GameObject AddChild(GameObject parent, GameObject child, Vector3 scale, string objectName)
     {
         GameObject go = Instantiate(child);
         go.transform.parent = parent.transform;
         go.transform.localPosition = Vector3.zero;
         go.transform.localScale = scale;
+        go.name = objectName;
 
         return go;
     }
@@ -144,7 +145,7 @@ public class BuildingController : MonoBehaviour
             var collider = new GameObject()
             {
                 layer = Layer.IgnoreRaycast,
-                name = "Range Collider"
+                name = GameObjectNames.RangeCollider
             };
             collider.transform.SetParent(go.transform);
             collider.transform.localPosition = Vector3.zero;

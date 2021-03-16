@@ -17,7 +17,8 @@ MonoBehaviour:
   Height: 2
   Range: 5
   GoldCost: 100
-  Projectile: {fileID: 1734245126228380, guid: c246c13351c285146b91ea26d3e4cda7, type: 3}
+  Projectile: {fileID: 8338610879090338956, guid: b7b46b7f9ed9dfa40b53aa0e3d14ea1a,
+    type: 3}
   PrefabToRender: {fileID: 1376233406905130, guid: acb9eeacca0ea814ab424f6393e71859,
     type: 3}
   Damage: 1
