@@ -24,12 +24,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7702298973879094772}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.2310736
-  m_Height: 4.39017
+  m_Radius: 0.5
+  m_Height: 4
   m_Direction: 1
-  m_Center: {x: 0, y: 2.14, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &688211215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,6 +43,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  Enemy: {fileID: 0}
+  Health: 0
+  DestroyInPath: 0
 --- !u!195 &688211216
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -52,16 +55,16 @@ NavMeshAgent:
   m_GameObject: {fileID: 7702298973879094772}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.420155
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 9.434324
+  m_Height: 10
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -77,6 +80,22 @@ PrefabInstance:
       value: Unit_Soldier_Swordman_Red
       objectReference: {fileID: 0}
     - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.24
       objectReference: {fileID: 0}
@@ -87,6 +106,10 @@ PrefabInstance:
     - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
       propertyPath: m_LocalPosition.z
       value: 18.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -101,14 +124,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -119,18 +134,6 @@ PrefabInstance:
     - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088016960886202, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36b906a3c26c4e246bc0c87ea1bbdd7f, type: 3}

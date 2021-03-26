@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.Gold = 100000;
+        this.Gold = 1250;
         this.Lives = 100;
     }
 
@@ -81,11 +81,15 @@ public class PlayerController : MonoBehaviour
         CheckUserClick();
     }
 
+    /// <summary>
+    /// Handles when the user clicks the left mouse button.
+    /// Shoots out a ray and targets the collided unit if one exists.
+    /// </summary>
     void CheckUserClick()
     {
         BuildState currentState = UserInterfaceController.Instance.BuildPanel.CurrentBuildState;
 
-        if ((currentState == BuildState.None || currentState == BuildState.Sell) && Input.GetMouseButtonDown(0))
+        if ((currentState == BuildState.None || currentState == BuildState.Selected) && Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
@@ -94,7 +98,7 @@ public class PlayerController : MonoBehaviour
                 if (tc != null)
                 {
                     UserInterfaceController.Instance.BuildPanel.Target = tc;
-                    UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Sell);
+                    UserInterfaceController.Instance.BuildPanel.SetBuildState(BuildState.Selected);
                 }
             }
         }

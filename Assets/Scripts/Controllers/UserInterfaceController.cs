@@ -29,18 +29,9 @@ public class UserInterfaceController : MonoBehaviour
     }
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Updates the UI label related to the <paramref name="stat"/>
+    /// </summary>
     public void UpdatePlayerStats(StatType stat, int value)
     {
         switch (stat)

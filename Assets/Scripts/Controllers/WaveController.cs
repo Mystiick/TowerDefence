@@ -21,7 +21,7 @@ public class WaveController : MonoBehaviour
     private List<GameObject> _cleanup;
 
     // Level timer Variables
-    private float _timeToStartLevel;
+    public float _timeToStartLevel;
     private float _timeSinceLastSpawn;
     private bool _countDown;
     private bool _levelTimerEnabled;
@@ -64,7 +64,7 @@ public class WaveController : MonoBehaviour
 
             if (_isSpawning)
             {
-                SpawnWave();
+                TrySpawnNextEnemy();
             }
 
             if (_countDown && _timeToStartLevel <= 0)
@@ -74,6 +74,9 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cleans up the current level, and builds out the queue of enemies that will filter into the map for the next level.
+    /// </summary>
     public void BeginNextLevel()
     {
         Debug.Assert(Levels.Length > 0, $"{MethodBase.GetCurrentMethod().Name} should not be called without '{nameof(Levels)}' being initialized first.");
@@ -100,12 +103,18 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Iterates over the current level's waves and adds enemies to the queue
+    /// </summary>
+    /// <param name="level"></param>
     private void LoadEnemyQueue(LevelScriptableObject level)
     {
         _enemyQueue.Clear();
 
         foreach (Wave w in level.Waves)
         {
+            Debug.Assert(w.HealthModifier != 0);
+
             for (int i = 0; i < w.NumberOfSpawns; i++)
             {
                 var go = ObjectPool.Instance.GetObject(w.EnemyToSpawn.PrefabToRender);
@@ -116,6 +125,7 @@ public class WaveController : MonoBehaviour
                 var ec = go.GetComponent<EnemyController>();
                 ec.target = this.Target;
                 ec.Enemy = w.EnemyToSpawn;
+                ec.Health = (int)(w.EnemyToSpawn.Health * w.HealthModifier);
 
                 go.SetActive(false);
 
@@ -124,7 +134,11 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    private void SpawnWave()
+    /// <summary>
+    /// Spawns the next enemy in the queue if the spawner's timer has elapsed.
+    /// Sets isSpawning to false if there are no more enemies in the queue.
+    /// </summary>
+    private void TrySpawnNextEnemy()
     {
         var wave = Levels[CurrentLevel - 1];
         _timeSinceLastSpawn += Time.deltaTime;
@@ -134,6 +148,8 @@ public class WaveController : MonoBehaviour
             // Spawn enemy
             var go = _enemyQueue.Dequeue();
             go.SetActive(true);
+            var ec = go.GetComponent<EnemyController>();
+            ec.Init();
 
             _timeSinceLastSpawn = 0f;
             _aliveEnemies.Add(go);
@@ -145,6 +161,11 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Flags an enemy for removal from the current level upon cleanup.
+    /// If there are no more enemies alive, it marks the level as finished to begin the transition to the next level.
+    /// </summary>
+    /// <param name="enemy"></param>
     public void RemoveFromLevel(GameObject enemy)
     {
         _aliveEnemies.Remove(enemy);
@@ -163,6 +184,9 @@ public class WaveController : MonoBehaviour
         _levelTimerEnabled = true;
     }
 
+    /// <summary>
+    /// Cleans up the current level, and releases all pooled enemies back into the pool
+    /// </summary>
     private void LevelFinished()
     {
         Debug.Log("Finished Level, cleaning up");

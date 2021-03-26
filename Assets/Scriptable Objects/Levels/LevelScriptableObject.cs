@@ -15,4 +15,5 @@ public struct Wave
 {
     public EnemyScriptableObject EnemyToSpawn;
     public int NumberOfSpawns;
+    public float HealthModifier;
 }

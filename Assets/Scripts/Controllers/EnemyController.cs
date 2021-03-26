@@ -13,16 +13,14 @@ public class EnemyController : MonoBehaviour
     public int Health;
     public bool DestroyInPath;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         Debug.Assert(target != null);
 
+        // Setup pathfinding
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
         _agent.SetDestination(target.transform.position);
-
-        Health = Enemy.Health;
     }
 
     // Update is called once per frame
@@ -43,13 +41,19 @@ public class EnemyController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // If the unit has reached the finish, remove a life from the player.
         if (other.CompareTag(Tags.Finish))
         {
             PlayerController.Instance.Lives -= 1;
+            // TODO: Lose state
             Remove();
         }
     }
 
+    /// <summary>
+    /// Damage the unit for <paramref name="value"/> damage, and removes the unit from the level if they hit 0 hp.
+    /// </summary>
+    /// <param name="value"></param>
     public void Hit(int value)
     {
         Health -= value;

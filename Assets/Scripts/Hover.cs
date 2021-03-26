@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Component that lerps an object up and down
+/// </summary>
 public class Hover : MonoBehaviour
 {
     public bool MovingDown;

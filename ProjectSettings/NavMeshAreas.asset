@@ -75,7 +75,7 @@ NavMeshProjectSettings:
     agentTypeID: 0
     agentRadius: 0.1
     agentHeight: 0.4
-    agentSlope: 25
+    agentSlope: 50
     agentClimb: 0.0333
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -85,6 +85,8 @@ NavMeshProjectSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_SettingNames:
