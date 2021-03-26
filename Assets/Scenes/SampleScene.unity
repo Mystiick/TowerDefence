@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1723418311}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999997
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1795,8 +1795,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 523398843}
   m_HandleRect: {fileID: 523398842}
   m_Direction: 2
-  m_Value: 1.0000045
-  m_Size: 0.9149999
+  m_Value: 1.000001
+  m_Size: 0.9150001
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5039,8 +5039,8 @@ MonoBehaviour:
   m_TileSize: 256
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.033333335
-  m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 0e642ae2be8c7a644b5b063610878806, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!4 &1251731569
 Transform:
   m_ObjectHideFlags: 0
@@ -7481,7 +7481,7 @@ PrefabInstance:
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: CurrentLevel
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
