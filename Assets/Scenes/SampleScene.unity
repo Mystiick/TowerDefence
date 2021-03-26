@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1723418311}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1795,8 +1795,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 523398843}
   m_HandleRect: {fileID: 523398842}
   m_Direction: 2
-  m_Value: 1.0000036
-  m_Size: 0.915
+  m_Value: 1.0000045
+  m_Size: 0.9149999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5311,10 +5311,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -7282,6 +7282,16 @@ PrefabInstance:
       propertyPath: TileSize
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2518259589046406892, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: ValidGhost
+      value: 
+      objectReference: {fileID: 2100000, guid: 0cbf7aa8387961b4cb7a4066b71eb30e, type: 2}
+    - target: {fileID: 2518259589046406892, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: InvalidGhost
+      value: 
+      objectReference: {fileID: 2100000, guid: 43016194ea0e2c840bc1a0f4c04ef440, type: 2}
     - target: {fileID: 2518259589046406892, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: buildingPreview
