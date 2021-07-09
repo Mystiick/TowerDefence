@@ -4,12 +4,17 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class WaveController : MonoBehaviour
 {
 
     public GameObject Spawner;
     public GameObject Target;
+
+    public Canvas UnitCanvas;
+    public Slider HealthBarPrefab;
+
     public int CurrentLevel = 0;
     public int LevelCountdown;
     public LevelScriptableObject[] Levels;
@@ -125,7 +130,19 @@ public class WaveController : MonoBehaviour
                 var ec = go.GetComponent<EnemyController>();
                 ec.target = this.Target;
                 ec.Enemy = w.EnemyToSpawn;
-                ec.Health = (int)(w.EnemyToSpawn.Health * w.HealthModifier);
+                ec.CurrentHealth = (int)(w.EnemyToSpawn.Health * w.HealthModifier);
+
+                if (ec.HealthBar == null)
+                {
+                    // Build out a canvas, put the healthbar on it, and let the enemy controller know about it
+                    var canvas = Instantiate<Canvas>(UnitCanvas);
+                    canvas.transform.SetParent(go.transform);
+                    canvas.GetComponent<RectTransform>().localPosition = Vector3.zero;
+
+                    ec.HealthBar = Instantiate<Slider>(HealthBarPrefab);
+                    ec.HealthBar.transform.SetParent(canvas.transform);
+                    ec.HealthBar.GetComponent<RectTransform>().localPosition = new Vector3(0, .1f, 0);
+                }
 
                 go.SetActive(false);
 

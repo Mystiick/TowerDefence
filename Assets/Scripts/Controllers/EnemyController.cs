@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
@@ -9,10 +10,14 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent _agent;
     public GameObject target;
     public EnemyScriptableObject Enemy;
+    public Slider HealthBar;
 
-    public int Health;
+    public int CurrentHealth;
     public bool DestroyInPath;
 
+    /// <summary>
+    /// Should be run any time the game object is set to active(true)
+    /// </summary>
     public void Init()
     {
         Debug.Assert(target != null);
@@ -21,6 +26,8 @@ public class EnemyController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
         _agent.SetDestination(target.transform.position);
+
+        HealthBar.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,9 +63,12 @@ public class EnemyController : MonoBehaviour
     /// <param name="value"></param>
     public void Hit(int value)
     {
-        Health -= value;
+        CurrentHealth -= value;
 
-        if (Health <= 0)
+        HealthBar.gameObject.SetActive(true);
+        HealthBar.value = ((float)CurrentHealth / (float)Enemy.Health);
+
+        if (CurrentHealth <= 0)
         {
             PlayerController.Instance.Gold += Enemy.GoldValue;
             Remove();

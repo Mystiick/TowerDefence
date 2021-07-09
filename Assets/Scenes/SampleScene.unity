@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1723418311}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5276,7 +5276,7 @@ GameObject:
   - component: {fileID: 1418036153}
   - component: {fileID: 1418036152}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ScreenCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7480,14 +7480,26 @@ PrefabInstance:
       objectReference: {fileID: 1516083974}
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
+      propertyPath: UnitCanvas
+      value: 
+      objectReference: {fileID: 3779078097224189049, guid: 19ecedb481aa9fd42a9743a11efe3bf7,
+        type: 3}
+    - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
       propertyPath: CurrentLevel
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: LevelCountdown
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
+        type: 3}
+      propertyPath: HealthBarPrefab
+      value: 
+      objectReference: {fileID: 6289675177327965245, guid: 515ae4a39d6e6d945acd7f59cdad7f1b,
+        type: 3}
     - target: {fileID: 5562203964303999035, guid: 5e0931b4adcce78499bbfdfa15ef2bf3,
         type: 3}
       propertyPath: Levels.Array.size
