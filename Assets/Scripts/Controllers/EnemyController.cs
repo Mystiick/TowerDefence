@@ -44,6 +44,8 @@ public class EnemyController : MonoBehaviour
             // TODO: Let this unit attack towers to make a path
             Debug.LogWarning("No path found");
         }
+
+        HealthBar.transform.parent.LookAt(Camera.main.transform);
     }
 
     void OnTriggerEnter(Collider other)
